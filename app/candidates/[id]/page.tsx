@@ -152,9 +152,17 @@ export default function CandidateDetailPage({ params }: PageProps) {
                   key={sheet.id}
                   className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
                 >
-                  <p className="text-xs text-gray-500 mb-3">
-                    作成日: {formatDateTime(sheet.created_at)}
-                  </p>
+                  <div className="flex items-start justify-between mb-3">
+                    <p className="text-xs text-gray-500">
+                      作成日: {formatDateTime(sheet.created_at)}
+                    </p>
+                    <Link
+                      href={`/candidates/${candidate.id}/edit-preparation-sheet/${sheet.id}`}
+                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      編集
+                    </Link>
+                  </div>
                   {sheet.summary && (
                     <div className="mb-4">
                       <h3 className="text-sm font-semibold text-gray-700 mb-2">概要</h3>
@@ -211,9 +219,17 @@ export default function CandidateDetailPage({ params }: PageProps) {
                   key={record.id}
                   className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
                 >
-                  <p className="text-xs text-gray-500 mb-3">
-                    面接日: {formatDateTime(record.created_at)}
-                  </p>
+                  <div className="flex items-start justify-between mb-3">
+                    <p className="text-xs text-gray-500">
+                      面接日: {formatDateTime(record.created_at)}
+                    </p>
+                    <Link
+                      href={`/candidates/${candidate.id}/edit-interview-record/${record.id}`}
+                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      編集
+                    </Link>
+                  </div>
                   {record.handover_notes && (
                     <div className="mb-4">
                       <h3 className="text-sm font-semibold text-gray-700 mb-2">

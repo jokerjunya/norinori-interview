@@ -671,6 +671,7 @@ export const localDb = {
         name: data.name,
         email: data.email || null,
         resume_file_url: null,
+        resume_text: null,
         created_at: now,
         updated_at: now,
       };
@@ -691,6 +692,9 @@ export const localDb = {
 
   // 準備シート
   preparationSheets: {
+    async findById(id: string): Promise<PreparationSheet | null> {
+      return preparationSheets.get(id) || null;
+    },
     async findByCandidateId(candidateId: string): Promise<PreparationSheet[]> {
       return Array.from(preparationSheets.values())
         .filter((sheet) => sheet.candidate_id === candidateId)
@@ -715,10 +719,31 @@ export const localDb = {
       preparationSheets.set(sheet.id, sheet);
       return sheet;
     },
+    async update(id: string, data: {
+      summary?: string | null;
+      strengths?: string | null;
+      concerns?: string | null;
+      questions_json?: any;
+    }): Promise<PreparationSheet | null> {
+      const sheet = preparationSheets.get(id);
+      if (!sheet) return null;
+      const updated = {
+        ...sheet,
+        summary: data.summary !== undefined ? data.summary : sheet.summary,
+        strengths: data.strengths !== undefined ? data.strengths : sheet.strengths,
+        concerns: data.concerns !== undefined ? data.concerns : sheet.concerns,
+        questions_json: data.questions_json !== undefined ? data.questions_json : sheet.questions_json,
+      };
+      preparationSheets.set(id, updated);
+      return updated;
+    },
   },
 
   // 面接記録
   interviewRecords: {
+    async findById(id: string): Promise<InterviewRecord | null> {
+      return interviewRecords.get(id) || null;
+    },
     async findByCandidateId(candidateId: string): Promise<InterviewRecord[]> {
       return Array.from(interviewRecords.values())
         .filter((record) => record.candidate_id === candidateId)
@@ -738,6 +763,20 @@ export const localDb = {
       };
       interviewRecords.set(record.id, record);
       return record;
+    },
+    async update(id: string, data: {
+      transcript?: string;
+      handover_notes?: string | null;
+    }): Promise<InterviewRecord | null> {
+      const record = interviewRecords.get(id);
+      if (!record) return null;
+      const updated = {
+        ...record,
+        transcript: data.transcript !== undefined ? data.transcript : record.transcript,
+        handover_notes: data.handover_notes !== undefined ? data.handover_notes : record.handover_notes,
+      };
+      interviewRecords.set(id, updated);
+      return updated;
     },
   },
 };
