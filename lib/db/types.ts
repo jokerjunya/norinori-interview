@@ -11,6 +11,7 @@ export interface Candidate {
   name: string
   email: string | null
   resume_file_url: string | null
+  resume_text: string | null
   created_at: string
   updated_at: string
 }
