@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 新卒面接サポートWebアプリ MVP
 
-## Getting Started
+AI を活用した新卒採用面接の支援ツール（MVP版）。レジュメの分析から面接記録の管理、次回面接への申し送り生成まで、面接プロセス全体を効率化します。
 
-First, run the development server:
+## 主な機能
+
+### 📋 面接準備シート生成
+- 候補者のレジュメをテキストで入力
+- ローカルLLM が候補者の概要、強み、懸念点、質問リストを自動生成
+- 面接前の準備時間を大幅に短縮
+
+### 📝 面接申し送り生成
+- 面接の文字起こしを入力
+- ローカルLLM が曖昧だった点、未解消の質問、次回深掘るべき論点を抽出
+- 面接官間でのスムーズな引き継ぎを実現
+
+### 📊 候補者履歴管理
+- 候補者ごとに準備シートと面接記録を時系列で表示
+- 全面接官が同じ情報を参照可能
+- 候補者理解の一貫性を保持
+
+## 技術スタック
+
+- **フロントエンド**: Next.js 14 (App Router), TypeScript, Tailwind CSS, Flowbite
+- **バックエンド**: Next.js API Routes
+- **データベース**: インメモリ（ローカル）
+- **AI**: ローカルLLM (LM Studio など)
+
+## セットアップ
+
+### 前提条件
+
+- Node.js 18.x 以上
+- npm または yarn
+- ローカルLLM（LM Studio など）が http://127.0.0.1:1234 で起動していること
+
+### 1. ローカルLLMのセットアップ
+
+[LM Studio](https://lmstudio.ai/) をダウンロードしてインストールし、以下の手順で起動します：
+
+1. LM Studio を開く
+2. お好きなモデルをダウンロード（推奨: Llama 3.1 8B Instruct など）
+3. 「Local Server」タブを開く
+4. ポート 1234 でサーバーを起動
+
+### 2. プロジェクトのセットアップ
 
 ```bash
+# リポジトリのクローン
+git clone https://github.com/jokerjunya/norinori-interview.git
+cd norinori-interview
+
+# パッケージのインストール
+npm install
+
+# 開発サーバーの起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで [http://localhost:3000](http://localhost:3000) を開く
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 使い方
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 候補者の登録
 
-## Learn More
+1. トップページから「候補者一覧へ」をクリック
+2. 「新規登録」ボタンから候補者情報を入力
+3. 候補者カードをクリックして詳細ページへ
 
-To learn more about Next.js, take a look at the following resources:
+### レジュメ入力と準備シート生成
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. 候補者詳細ページで「レジュメを入力」をクリック
+2. レジュメをテキストで入力
+3. 「準備シートを生成」をクリック
+4. ローカルLLM が自動で準備シートを生成（30秒〜1分程度）
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 面接記録の追加
 
-## Deploy on Vercel
+1. 候補者詳細ページで「面接記録を追加」をクリック
+2. 面接の文字起こしをテキストで入力
+3. 「申し送りを生成して保存」をクリック
+4. ローカルLLM が次回面接への申し送りを自動生成
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 候補者履歴の確認
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+候補者詳細ページで以下を時系列で確認可能:
+- 面接準備シート（概要、強み、懸念点、質問リスト）
+- 面接記録（申し送り、文字起こし全文）
+
+## MVP の特徴
+
+- **シンプル**: 複雑な外部サービスの設定不要
+- **プライバシー**: すべてローカルで動作、データは外部に送信されない
+- **無料**: API キー不要、無料で使用可能
+- **高速**: ローカルLLMなので通信の待ち時間なし
+
+## 今後の拡張予定
+
+- PDFレジュメの直接アップロード機能
+- データベースの永続化（Supabase / PostgreSQL）
+- 評価機能の追加
+- ダッシュボードでの候補者比較
+- チーム機能と権限管理
+
+## トラブルシューティング
+
+### ローカルLLMに接続できない
+
+- LM Studio が起動しているか確認
+- ポート 1234 で動作しているか確認
+- ファイアウォールの設定を確認
+
+### AI 生成が遅い
+
+- より小さいモデルを使用してみる
+- GPU を使用している場合は設定を確認
+- LM Studio の設定で「Fast inference」を有効にする
+
+## ライセンス
+
+MIT
+
+## 開発者
+
+[@jokerjunya](https://github.com/jokerjunya)
+
+開発に関する質問や提案は Issue または Pull Request でお願いします。
